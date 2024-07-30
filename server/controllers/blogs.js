@@ -3,7 +3,6 @@
 const blogsRouter = require('express').Router()
 const Blog = require('../models/blog')
 const User = require('../models/user')
-const jwt = require('jsonwebtoken')
 
 blogsRouter.get('/', async (request, response) => {
   const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
@@ -18,6 +17,7 @@ blogsRouter.post('/', async (request, response) => {
   }
 
   const user = await User.findById(request.user.id)
+
   const blog = new Blog({
     ...body,
     user: user._id
@@ -31,7 +31,11 @@ blogsRouter.post('/', async (request, response) => {
   user.blogs = user.blogs.concat(addedBlog._id) // user.blogs is the array of blogs the user has posted, the just posted blog id is added using concat or spread operator to generat new array, does not change existing array
   await user.save()
 
-  response.status(201).json(addedBlog)
+  const populatedBlog = await Blog.findById(addedBlog._id).populate('user', {
+    username: 1,
+    name: 1
+  })
+  response.status(201).json(populatedBlog)
 })
 
 blogsRouter.get('/:id', async (request, response) => {
@@ -58,15 +62,13 @@ blogsRouter.delete('/:id', async (request, response) => {
 blogsRouter.put('/:id', async (request, response) => {
   const body = request.body
 
-  const blog = {
-    title: body.title,
-    author: body.author,
-    url: body.url,
-    likes: body.likes
-  }
-  const blogToUpdate = await Blog.findByIdAndUpdate(request.params.id, blog, {
-    new: true
-  })
+  const blogToUpdate = await Blog.findByIdAndUpdate(
+    request.params.id,
+    { ...body },
+    {
+      new: true
+    }
+  ).populate('user', { username: 1, name: 1 }) //so it works with part5 update the likes and display the username
   response.json(blogToUpdate)
 })
 
