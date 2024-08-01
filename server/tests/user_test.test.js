@@ -7,18 +7,20 @@ const app = require('../app')
 
 const api = supertest(app)
 
-const { usersInDb } = require('./test_helper')
+const { usersInDb, initialUsers } = require('./test_helper')
 
 const User = require('../models/user')
 
 describe('Delete all test users and load initial test user into DB', () => {
   beforeEach(async () => {
     await User.deleteMany({})
-
+    await User.insertMany(initialUsers)
+    /* not needed because i have my initial users, why did i do this ?
     const passwordHash = await bcrypt.hash('P4$$w0rd', 10)
     const user = new User({ username: 'root', passwordHash })
 
     await user.save()
+    */
   })
   describe('Test different user creations', () => {
     test('creation succeeds with a fresh username', async () => {
