@@ -28,9 +28,9 @@ const initialUsers = [
     passwordHash:
       '$2b$10$w5andjmx5/NWIARldNodme0wZgjmYoVKEHbfr5jtLxhm1vEPezqC6',
     blogs: [],
-    _id: '6697a99ddb2ed421c2c2b4f7',
+    _id: '6697c8eae37835bac71ef1f8',
     __v: 0,
-    id: '6697a99ddb2ed421c2c2b4f7'
+    id: '6697c8eae37835bac71ef1f8'
   },
   {
     username: 'user',
@@ -38,9 +38,9 @@ const initialUsers = [
     passwordHash:
       '$2b$10$sDr4LAYI8CjfHNbS5zaBbOYEGN5dDovJWv9kuFlhFJfsZgYdECf1K',
     blogs: [],
-    _id: '6697a9d7e472c12ff20ec016',
+    _id: '66ab47dc5ce6a6ce1c835d7f',
     __v: 0,
-    id: '6697a9d7e472c12ff20ec016'
+    id: '66ab47dc5ce6a6ce1c835d7f'
   }
 ]
 

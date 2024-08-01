@@ -6,7 +6,7 @@ const bcrypt = require('bcrypt')
 const app = require('../app')
 
 const api = supertest(app)
-
+// run with command npm run test-all ./tests/
 const { initialBlogs, blogsInDb, initialUsers } = require('./test_helper')
 const Blog = require('../models/blog')
 const User = require('../models/user')
@@ -20,9 +20,11 @@ beforeEach(async () => {
   await User.insertMany(initialUsers)
 
   const rootUser = await User.findOne({ username: 'root' })
+
   const insertBlogs = initialBlogs.map(
     (blog) => new Blog({ ...blog, user: rootUser._id })
   )
+
   const saveInitialBlogs = insertBlogs.map((blog) => blog.save())
   await Promise.all(saveInitialBlogs)
 
@@ -32,7 +34,7 @@ beforeEach(async () => {
   }
 
   const userCredentials = {
-    username: 'noPermUser',
+    username: 'user',
     password: '12345'
   }
 
